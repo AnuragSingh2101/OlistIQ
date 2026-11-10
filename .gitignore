@@ -1,0 +1,36 @@
+# Data files - never commit raw or large cleaned data
+data/raw/
+data/clean/
+*.db
+*.sqlite
+*.sqlite3
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+.coverage
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Environment
+.env
+.venv
+venv/
+env/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Reports (optional - you may want to commit these)
+# reports/cleaning_log.csv
+# reports/validation_results.csv
