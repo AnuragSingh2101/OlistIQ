@@ -1,141 +1,130 @@
-# OlistIQ
+# 🛒 OlistIQ — Brazilian E-Commerce Analytics Platform
 
-Welcome to **OlistIQ** – a quick overview of the project, how to run it locally, and how to share a live demo with others.
+[![Streamlit App](https://img.shields.io/badge/Streamlit-FF4B4B?style=for-the-badge&logo=Streamlit&logoColor=white)](https://share.streamlit.io/)
+[![Python](https://img.shields.io/badge/Python-3.10%2B-blue?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
+[![Pandas](https://img.shields.io/badge/Pandas-2.0%2B-150458?style=for-the-badge&logo=pandas&logoColor=white)](https://pandas.pydata.org/)
+[![Plotly](https://img.shields.io/badge/Plotly-5.15%2B-3F4F75?style=for-the-badge&logo=plotly&logoColor=white)](https://plotly.com/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](https://opensource.org/licenses/MIT)
+
+**OlistIQ** is an end-to-end data analytics and intelligence platform built on the **Brazilian E-Commerce Public Dataset by Olist** (~100,000 orders across 2016–2018). It translates commercial, logistic, and financial transaction records into actionable executive insights through an interactive **Streamlit dashboard**, **exploratory data analysis notebooks**, **production-grade SQL models**, and **executive performance reports**.
 
 ---
 
-## 📂 Project Structure
+## 🎯 Key Project Highlights & Insights
 
-```
+- **Commercial Velocity:** Analyzed **R$ 16.0M** in Gross Merchandise Value (GMV) across **99,441 orders**, identifying peak demand surges during Black Friday (~70% MoM volume surge).
+- **Executive KPI Dashboard:** Real-time metrics including GMV, Total Orders, Average Order Value (AOV ~R$ 160.85), Review Ratings (★ 4.09/5), and SLA on-time fulfillment rates (92.1%).
+- **Category Intelligence:** Translated and ranked 70+ Portuguese product categories into English; identified *Health & Beauty*, *Watches & Gifts*, and *Bed, Bath & Table* as the top GMV drivers (>35% of total sales).
+- **Logistics & Regional SLA Benchmarks:** Uncovered regional transit disparities between the Southeastern core (`SP`, `PR`, `RJ` averaging 8–12 days) and northern states (`RR`, `AP`, `AM` exceeding 25–30 days with SLA delay risks >15%).
+- **Payment Economics:** Modeled payment method distributions, demonstrating that Credit Cards capture **75.8% of total revenue**, with Boleto Bancário accounting for **19.1%**.
+
+---
+
+## 📂 Repository Architecture
+
+```text
 OlistIQ/
-├─ src/                # Source code (your existing files)
-├─ notebooks/          # Jupyter notebooks, if any
-├─ requirements.txt    # Python dependencies
-├─ app.py              # Simple Streamlit demo (optional)
-├─ docs/               # Markdown docs for GitHub Pages / MkDocs
-├─ screenshots/        # Screenshots for the README
-└─ README.md           # This file
+├── app.py                                  # Modern Streamlit executive analytics dashboard
+├── requirements.txt                        # Python dependencies (Streamlit, Pandas, Plotly, etc.)
+│
+├── data/
+│   ├── raw/                                # 9 raw Olist CSV datasets (~126 MB)
+│   └── clean/                              # Optimized analytics datasets & summaries
+│
+├── dashboard/
+│   ├── README.md                           # Dashboard feature walkthrough & cloud guide
+│   └── dashboard_screenshots/              # Visual UI captures and screenshots
+│
+├── notebooks/
+│   └── 01_exploratory_data_analysis.ipynb  # End-to-end Jupyter EDA with visualizations
+│
+├── reports/
+│   ├── executive_summary.md                # Comprehensive business insights and strategy
+│   └── executive_report.html               # Standalone interactive HTML report
+│
+├── sql/
+│   ├── 01_monthly_revenue_and_growth.sql   # MoM revenue growth with window functions
+│   ├── 02_delivery_sla_by_state.sql        # State-by-state logistics bottleneck queries
+│   └── 03_rfm_customer_segmentation.sql    # Quantile-based RFM customer loyalty scoring
+│
+├── src/
+│   ├── load_data.py                        # Dataset verification and file-check pipeline
+│   └── clean_data.py                       # Automated ETL and data transformation suite
+│
+├── tests/                                  # Unit tests for data loaders and metrics
+└── README.md                               # Project documentation
 ```
-
-## ✅ Why only 4 files appear on GitHub?
-
-If you see only a handful of files on GitHub, the most common reasons are:
-1. **Uncommitted files** – they exist locally but haven’t been `git add`‑ed.
-2. **Ignored by `.gitignore`** – a rule is skipping them.
-
-Run the following in the project folder to verify:
-
-```bash
-# Show what Git sees (including ignored files)
-git status --ignored
-
-# Add everything that isn’t ignored
-git add .
-
-git commit -m "Add all project files"
-
-git push origin main   # or the branch you use
-```
-
-If you discover a rule that’s unintentionally ignoring files, edit `.gitignore` (or add a negation like `!src/your_file.py`).
 
 ---
 
-## 🚀 Quick Live Demo with Streamlit (Python only)
+## 🖥️ Interactive Dashboard Features (`app.py`)
 
-If you have a Python codebase, you can spin up a tiny web UI in minutes using **Streamlit**.
+The Streamlit dashboard includes:
 
-### 1. Install Streamlit
+1. **Executive Metric Scorecards**: Card components with custom accent borders highlighting GMV, AOV, Review Satisfaction, On-Time Fulfillment %, and Average Transit Duration.
+2. **Dynamic Sidebar Controls**: Date range slider, customer state (UF) multi-select, product category selector, and order status filters.
+3. **Tab 1: Revenue Trajectory**: Dual-axis Plotly charts visualizing gross monthly revenue alongside order volume, paired with Month-over-Month (MoM) growth percentages.
+4. **Tab 2: Category & Catalog**: Horizontal rankings of the top 12 categories by gross revenue and order volume.
+5. **Tab 3: Logistics & Delivery SLA**: State-by-state ranking of transit times (identifying shipping bottlenecks) and SLA breach rates.
+6. **Tab 4: Payment Economics**: Interactive revenue-share donuts and transaction volume distributions across payment types.
+7. **Tab 5: Data Explorer**: Tabular browser allowing users to inspect and filter individual transactions with a one-click **CSV Data Export** button.
 
+---
+
+## 🚀 Quickstart: Running Locally
+
+### 1. Clone the repository
 ```bash
-pip install streamlit
+git clone https://github.com/AnuragSingh2101/OlistIQ.git
+cd OlistIQ
 ```
 
-### 2. Add a demo script (`app.py`)
+### 2. Set up virtual environment and install packages
+```powershell
+# Create virtual environment
+python -m venv venv
 
-A minimal example is provided in this repo. It loads the main function from `src/main.py` (replace with your entry point) and displays the output.
+# Activate on Windows (PowerShell):
+.\venv\Scripts\Activate.ps1
 
-```python
-# app.py
-import streamlit as st
+# Activate on macOS/Linux:
+source venv/bin/activate
 
-# Import your project’s main logic – adjust the import path as needed
-# from src.main import run
-
-def run():
-    return "Hello from OlistIQ! Replace this with your real function."
-
-st.title("OlistIQ Demo")
-st.write(run())
+# Install requirements
+pip install -r requirements.txt
 ```
 
-### 3. Run locally
-
-```bash
+### 3. Launch the Streamlit Dashboard
+```powershell
 streamlit run app.py
 ```
-
-A browser window opens at `http://localhost:8501` showing the UI.
-
-### 4. Deploy for free
-
-- **Streamlit Community Cloud** – Connect your GitHub repo and click *“Deploy”*. It will automatically build and serve the app at a public URL.
-- **Netlify / Vercel** – If you have a Node/React front‑end, link the repo and let the platform handle the build.
+The application will launch in your browser at `http://localhost:8501`.
 
 ---
 
-## 📚 Documentation Site (GitHub Pages)
+## 🌐 Deploy to Streamlit Community Cloud (Free Live Demo)
 
-If you prefer a static site (e.g., API docs, screenshots, usage guide), enable **GitHub Pages**:
-1. Create a `docs/` folder.
-2. Add Markdown files there (e.g., `docs/overview.md`).
-3. In GitHub → *Settings* → *Pages*, select the `docs/` folder as the source.
-4. Push the changes – GitHub will publish at `https://<username>.github.io/<repo>/`.
-
----
-
-## 📸 Screenshots
-
-Place any images you want to showcase in the `screenshots/` directory and reference them like this:
-
-```markdown
-![Main screen](screenshots/main.png)
-![Feature view](screenshots/feature.png)
-```
-
-> **Tip:** The two PNGs you uploaded can be copied into `screenshots/`.
+To share a live public link with recruiters and collaborators:
+1. Push your repository to GitHub:
+   ```bash
+   git add .
+   git commit -m "feat: complete analytics platform"
+   git push origin main
+   ```
+2. Navigate to [share.streamlit.io](https://share.streamlit.io/) and log in with your GitHub account.
+3. Click **"New app"**, select `AnuragSingh2101/OlistIQ`, set the main file path to `app.py`, and click **Deploy**.
+4. Streamlit will generate a public URL (e.g., `https://olistiq.streamlit.app`) that anyone can open in their browser without installing anything.
 
 ---
 
-## 📦 Optional – Docker container
+## 📊 Analytical SQL Suite
 
-For a reproducible environment, add a `Dockerfile`:
-
-```dockerfile
-FROM python:3.11-slim
-WORKDIR /app
-COPY . /app
-RUN pip install --no-cache-dir -r requirements.txt
-EXPOSE 8501
-CMD ["streamlit", "run", "app.py", "--server.port", "8501"]
-```
-
-Build and run:
-```bash
-docker build -t olistiq .
-docker run -p 8501:8501 olistiq
-```
+The [`sql/`](sql/) directory contains production-ready analytical SQL scripts:
+- **`01_monthly_revenue_and_growth.sql`**: Uses SQL window functions (`LAG()`) to compute Month-over-Month revenue expansion rates.
+- **`02_delivery_sla_by_state.sql`**: Identifies carrier SLA breach rates and calculates average delivery days grouped by destination state.
+- **`03_rfm_customer_segmentation.sql`**: Employs `NTILE(4)` quantile window functions across Recency, Frequency, and Monetary dimensions to segment customers into *Champions*, *Loyal*, *At-Risk*, and *Lost*.
 
 ---
 
-## 🎉 Next Steps
-1️⃣ Ensure **all** project files are committed and pushed.  
-2️⃣ Pick a sharing method (Streamlit demo, GitHub Pages, Docker, etc.).  
-3️⃣ Add the `screenshots/` folder and place your images there.  
-4️⃣ Update the `README.md` (you’re already looking at it!).
-
-Feel free to ask me to:
-- Create a skeleton `Dockerfile`.
-- Generate a more detailed `app.py` that calls a specific function from your code.
-- Write a sample MkDocs `mkdocs.yml` for a full‑featured docs site.
-- Anything else you need!
+## 📄 License
+This project is licensed under the MIT License — feel free to use and adapt it for your own portfolios and analyses.
