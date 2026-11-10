@@ -1,118 +1,141 @@
-# Olist Data Quality & Analytics Pipeline
+# OlistIQ
 
-**Building a reliable analytical database through data profiling, cleaning, automated validation and business intelligence.**
+Welcome to **OlistIQ** – a quick overview of the project, how to run it locally, and how to share a live demo with others.
 
-## 📦 Quick Start
+---
 
-### 1. Clone & Setup
+## 📂 Project Structure
+
+```
+OlistIQ/
+├─ src/                # Source code (your existing files)
+├─ notebooks/          # Jupyter notebooks, if any
+├─ requirements.txt    # Python dependencies
+├─ app.py              # Simple Streamlit demo (optional)
+├─ docs/               # Markdown docs for GitHub Pages / MkDocs
+├─ screenshots/        # Screenshots for the README
+└─ README.md           # This file
+```
+
+## ✅ Why only 4 files appear on GitHub?
+
+If you see only a handful of files on GitHub, the most common reasons are:
+1. **Uncommitted files** – they exist locally but haven’t been `git add`‑ed.
+2. **Ignored by `.gitignore`** – a rule is skipping them.
+
+Run the following in the project folder to verify:
+
 ```bash
-git clone <your-repo-url>
-cd olist-data-quality-analytics-pipeline
+# Show what Git sees (including ignored files)
+git status --ignored
+
+# Add everything that isn’t ignored
+git add .
+
+git commit -m "Add all project files"
+
+git push origin main   # or the branch you use
 ```
 
-### 2. Install Dependencies
+If you discover a rule that’s unintentionally ignoring files, edit `.gitignore` (or add a negation like `!src/your_file.py`).
+
+---
+
+## 🚀 Quick Live Demo with Streamlit (Python only)
+
+If you have a Python codebase, you can spin up a tiny web UI in minutes using **Streamlit**.
+
+### 1. Install Streamlit
+
 ```bash
-# Create virtual environment (recommended)
-python -m venv venv
-venv\Scripts\activate  # Windows
-# source venv/bin/activate  # Mac/Linux
-
-# Install packages
-pip install -r requirements.txt
+pip install streamlit
 ```
 
-### 3. Download Dataset
-**Manual (easiest):**
-1. Go to: https://www.kaggle.com/datasets/olistbr/brazilian-ecommerce
-2. Download `archive.zip`
-3. Extract all 9 CSV files into `data/raw/`
+### 2. Add a demo script (`app.py`)
 
-**Expected files in `data/raw/`:**
-```
-olist_orders_dataset.csv
-olist_order_items_dataset.csv
-olist_order_payments_dataset.csv
-olist_order_reviews_dataset.csv
-olist_customers_dataset.csv
-olist_sellers_dataset.csv
-olist_products_dataset.csv
-olist_geolocation_dataset.csv
-product_category_name_translation.csv
+A minimal example is provided in this repo. It loads the main function from `src/main.py` (replace with your entry point) and displays the output.
+
+```python
+# app.py
+import streamlit as st
+
+# Import your project’s main logic – adjust the import path as needed
+# from src.main import run
+
+def run():
+    return "Hello from OlistIQ! Replace this with your real function."
+
+st.title("OlistIQ Demo")
+st.write(run())
 ```
 
-### 4. Verify Data Load
+### 3. Run locally
+
 ```bash
-python src/load_data.py
+streamlit run app.py
 ```
 
-### 5. Run Tests
+A browser window opens at `http://localhost:8501` showing the UI.
+
+### 4. Deploy for free
+
+- **Streamlit Community Cloud** – Connect your GitHub repo and click *“Deploy”*. It will automatically build and serve the app at a public URL.
+- **Netlify / Vercel** – If you have a Node/React front‑end, link the repo and let the platform handle the build.
+
+---
+
+## 📚 Documentation Site (GitHub Pages)
+
+If you prefer a static site (e.g., API docs, screenshots, usage guide), enable **GitHub Pages**:
+1. Create a `docs/` folder.
+2. Add Markdown files there (e.g., `docs/overview.md`).
+3. In GitHub → *Settings* → *Pages*, select the `docs/` folder as the source.
+4. Push the changes – GitHub will publish at `https://<username>.github.io/<repo>/`.
+
+---
+
+## 📸 Screenshots
+
+Place any images you want to showcase in the `screenshots/` directory and reference them like this:
+
+```markdown
+![Main screen](screenshots/main.png)
+![Feature view](screenshots/feature.png)
+```
+
+> **Tip:** The two PNGs you uploaded can be copied into `screenshots/`.
+
+---
+
+## 📦 Optional – Docker container
+
+For a reproducible environment, add a `Dockerfile`:
+
+```dockerfile
+FROM python:3.11-slim
+WORKDIR /app
+COPY . /app
+RUN pip install --no-cache-dir -r requirements.txt
+EXPOSE 8501
+CMD ["streamlit", "run", "app.py", "--server.port", "8501"]
+```
+
+Build and run:
 ```bash
-pytest tests/ -v
+docker build -t olistiq .
+docker run -p 8501:8501 olistiq
 ```
 
-## 📁 Repository Structure
-```
-olist-data-quality-analytics-pipeline/
-│
-├── data/
-│   ├── raw/           # Original Kaggle CSVs (gitignored)
-│   ├── clean/         # Cleaned CSVs (gitignored)
-│   └── README.md
-│
-├── notebooks/
-│   ├── 01_data_profiling.ipynb
-│   ├── 02_data_cleaning.ipynb
-│   ├── 03_exploratory_data_analysis.ipynb
-│   └── 04_data_quality_summary.ipynb
-│
-├── src/
-│   ├── load_data.py
-│   ├── profile_data.py
-│   ├── clean_data.py
-│   ├── validate_data.py
-│   └── database.py
-│
-├── sql/
-│   ├── schema.sql
-│   ├── data_quality_checks.sql
-│   └── business_analysis.sql
-│
-├── reports/
-│   ├── data_quality_report.md
-│   ├── cleaning_log.csv
-│   └── validation_results.csv
-│
-├── tests/
-│   └── test_data_quality.py
-│
-├── dashboard/
-│   └── dashboard_screenshots/
-│
-├── requirements.txt
-├── .gitignore
-└── README.md
-```
+---
 
-## 🎯 Project Phases
-1. **Data Collection & Setup** ← *You are here*
-2. Data Profiling
-3. Data Cleaning & Standardization
-4. Cleaning Logs & Audit Trail
-5. SQLite Database Design
-6. SQL Data Quality Validation
-7. Automated Testing (pytest)
-8. Exploratory Data Analysis
-9. Business SQL Analysis
-10. Data Quality Report
-11. Optional: Power BI Dashboard
+## 🎉 Next Steps
+1️⃣ Ensure **all** project files are committed and pushed.  
+2️⃣ Pick a sharing method (Streamlit demo, GitHub Pages, Docker, etc.).  
+3️⃣ Add the `screenshots/` folder and place your images there.  
+4️⃣ Update the `README.md` (you’re already looking at it!).
 
-## 📊 Dataset Description
-The **Olist Brazilian E-Commerce** dataset contains 100k+ orders from 2016-2018 across multiple tables:
-- **Customers, Orders, Order Items, Payments, Reviews**
-- **Products, Sellers, Geolocation, Category Translations**
-
-## 🛠 Tech Stack
-Python • Pandas • NumPy • Jupyter • SQLite • SQL • Matplotlib • Seaborn • pytest • Git
-
-## 📝 License
-Educational portfolio project. Dataset © Olist (Kaggle).
+Feel free to ask me to:
+- Create a skeleton `Dockerfile`.
+- Generate a more detailed `app.py` that calls a specific function from your code.
+- Write a sample MkDocs `mkdocs.yml` for a full‑featured docs site.
+- Anything else you need!
