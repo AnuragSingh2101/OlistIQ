@@ -76,13 +76,14 @@ def process_olistiq_data():
     )
 
     # Find dominant category per order
+    def get_mode_or_default(x):
+        if x.empty or x.mode().empty:
+            return "Other"
+        return x.mode().iloc[0]
+    
     category_per_order = (
         items_with_prod.groupby("order_id")["product_category_name_english"]
-        .agg(lambda x: x.mode().iloc[0] if not x.empty and not x.mode().empty else "Other")
-        .reset_name("primary_category")
-        if hasattr(items_with_prod.groupby("order_id")["product_category_name_english"], "reset_name")
-        else items_with_prod.groupby("order_id")["product_category_name_english"]
-        .agg(lambda x: x.mode().iloc[0] if not x.empty and not x.mode().empty else "Other")
+        .agg(get_mode_or_default)
         .reset_index()
         .rename(columns={"product_category_name_english": "primary_category"})
     )
